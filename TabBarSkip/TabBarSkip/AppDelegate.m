@@ -28,9 +28,9 @@
     for (NSInteger i=0;i<4;i++ ) {
         ViewController* vc=[[ViewController alloc]init];
         vc.item=[NSString stringWithFormat:@"%zd",i];
+        vc.tabBarItem.title=[NSString stringWithFormat:@"第%zd个",i];
         [tab addChildViewController:vc];
     }
-    
     tab.delegate=self;
     
     self.window.rootViewController=tab;
@@ -40,23 +40,31 @@
     return YES;
 }
 
+//记录目标索引
 static NSInteger selectingIndex;
+
+//记录当前界面索引，相对下一个页面的前一个索引
+static NSInteger preSelectingIndex=0;
 
 -(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController{
     
     //记录下用户选择前往的索引
     selectingIndex=tabBarController.selectedIndex;
     
-        if (tabBarController.selectedIndex!=0) {
+   
+        //如果当前是第0个控制器且目标控制器不是第0个，那么执行跳转就会弹出对话框
+        if (preSelectingIndex==0&&selectingIndex!=0) {
     
             UIAlertController * alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"切换后信息将消失" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-    
-                //前往用户刚才点击的控制器
-                tabBarController.selectedIndex=selectingIndex;
+                
+               
             }];
             UIAlertAction *goAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                
+                //前往用户刚才点击的控制器
+                tabBarController.selectedIndex=selectingIndex;
+                //点击确定，那么记住上一次的的目标
+                preSelectingIndex=selectingIndex;
             }];
     
             [alertController addAction:goAction];
@@ -64,9 +72,17 @@ static NSInteger selectingIndex;
             [tabBarController presentViewController:alertController animated:YES completion:^{
     
             }];
-            
+         //如果当前是其他控制器，那么执行跳转就会直接跳转
+        }else{
+            //前往用户刚才点击的控制器
+            tabBarController.selectedIndex=selectingIndex;
+            //点击确定，那么记住上一次的的目标
+            preSelectingIndex=selectingIndex;
         }
-        tabBarController.selectedIndex=0;
+    
+        //执行完代码仍停留在上一个界面，暂时不执行跳转
+        tabBarController.selectedIndex=preSelectingIndex;
+    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

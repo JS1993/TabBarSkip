@@ -487,6 +487,7 @@
 				CFFF327D1CFC091600275532 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CFFF327E1CFC091600275532 /* Build configuration list for PBXNativeTarget "TabBarSkipTests" */ = {
 			isa = XCConfigurationList;
@@ -495,6 +496,7 @@
 				CFFF32801CFC091600275532 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CFFF32811CFC091600275532 /* Build configuration list for PBXNativeTarget "TabBarSkipUITests" */ = {
 			isa = XCConfigurationList;
@@ -503,6 +505,7 @@
 				CFFF32831CFC091600275532 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
